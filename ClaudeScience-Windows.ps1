@@ -102,12 +102,41 @@ function Invoke-WslBash {
     [Parameter(Mandatory = $true)]
     [string]$Command,
 
-    [switch]$AllowFailure
+    [switch]$AllowFailure,
+    [switch]$StreamOutput,
+    [switch]$AsRoot
   )
 
-  $output = & wsl.exe -d $Distro -- bash -lc $Command 2>&1
-  $exitCode = $LASTEXITCODE
-  $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+  $Command = $Command -replace "`r`n", "`n"
+  $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($Command))
+  
+  $wslArgs = @('-d', $Distro)
+  if ($AsRoot) {
+    $wslArgs += '-u'
+    $wslArgs += 'root'
+  }
+  $wslArgs += '--'
+  $wslArgs += 'bash'
+  $wslArgs += '-c'
+  $wslArgs += 'echo {0} | base64 -d | bash -l' -f $b64
+
+  if ($StreamOutput) {
+    & wsl.exe @wslArgs
+    $exitCode = $LASTEXITCODE
+    $text = ""
+  }
+  else {
+    $oldError = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    $output = & wsl.exe @wslArgs 2>&1
+    $ErrorActionPreference = $oldError
+    $exitCode = $LASTEXITCODE
+    if ($null -ne $output) {
+      $text = (($output | ForEach-Object { $_.ToString() }) -join "`n").Trim()
+    } else {
+      $text = ""
+    }
+  }
 
   if ($exitCode -ne 0 -and -not $AllowFailure) {
     throw "WSL command failed with exit code $exitCode.`n$text"
@@ -174,17 +203,16 @@ function Ensure-WslDistro {
 function Install-LinuxPrerequisites {
   Write-Info 'Installing Linux dependencies and Claude Science inside WSL. This can take a few minutes.'
 
-  $bootstrap = @'
+  $rootSetup = @'
 set -euo pipefail
+apt-get update
+env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl bubblewrap socat
+'@
 
-if ! command -v sudo >/dev/null 2>&1; then
-  echo "sudo is required inside this Ubuntu distribution."
-  exit 1
-fi
+  Invoke-WslBash -Command $rootSetup -StreamOutput -AsRoot
 
-sudo apt-get update
-sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl bubblewrap socat
-
+  $userSetup = @'
+set -euo pipefail
 export PATH="$HOME/.local/bin:$PATH"
 
 if ! command -v claude-science >/dev/null 2>&1; then
@@ -195,10 +223,7 @@ fi
 claude-science --version
 '@
 
-  $result = Invoke-WslBash -Command $bootstrap
-  if ($result.Text) {
-    Write-Host $result.Text
-  }
+  Invoke-WslBash -Command $userSetup -StreamOutput
 
   Write-Ok 'Claude Science is installed inside WSL.'
 }
@@ -218,7 +243,7 @@ fi
 claude-science --version
 '@
 
-  $result = Invoke-WslBash -Command $command
+  $result = Invoke-WslBash -Command $command -StreamOutput
   if ($result.Text) {
     Write-Host $result.Text
   }
