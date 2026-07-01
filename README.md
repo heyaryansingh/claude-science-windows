@@ -74,4 +74,29 @@ Open PowerShell in this folder and run:
 - **Where is my data stored?** Claude Science stores its app data, projects, and conversation history inside your WSL home directory under `~/.claude-science`. 
 
 ---
+
+## 🌐 Hosting for a Team (Multi-User Mode)
+
+If you have a dedicated Linux server and want to provide browser-based Claude Science access to multiple people (so they don't have to install WSL locally), you can use the built-in Server script instead!
+
+We provide a streamlined, zero-dependency Bash script that creates fully isolated Unix accounts and Systemd daemons for each of your users.
+
+**1. Install on your server:**
+```bash
+sudo ./ClaudeScience-Server.sh install
+```
+
+**2. Provision a user (e.g. alice):**
+```bash
+sudo ./ClaudeScience-Server.sh add alice
+```
+This automatically allocates a port and starts a dedicated Claude Science daemon for Alice.
+
+**3. Get their sign-in link:**
+```bash
+sudo ./ClaudeScience-Server.sh login alice
+```
+This will print a secure URL (e.g., `http://YOUR-IP:8010/?nonce=abc`). Send this URL to Alice. She will click it, sign in with *her own Anthropic account*, and immediately have browser-based access to Claude Science without needing to install anything!
+
+---
 <p align="center"><i>This repo is an unofficial helper around Anthropic's documented installation path. It does not bypass Claude account, plan, or organization access requirements.</i></p>
