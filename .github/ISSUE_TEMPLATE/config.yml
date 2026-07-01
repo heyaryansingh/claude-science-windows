@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Claude Science docs
-    url: https://claude.com/docs/claude-science/get-started
-    about: Official Claude Science documentation from Anthropic.
-  - name: Claude support
-    url: https://support.anthropic.com/
-    about: Use Anthropic support for account, billing, beta access, or product issues.

@@ -1,133 +1,73 @@
-# Claude Science on Windows
+<h1 align="center">Claude Science for Windows 🚀</h1>
 
-Windows-first helper repo for installing and running Claude Science through WSL 2.
+<p align="center">
+  <b>The unofficial 1-click Windows installer for Claude Science.</b><br>
+  Run Anthropic's AI Workbench natively via WSL 2 with zero configuration.
+</p>
 
-Claude Science is currently a macOS/Linux app. On Windows, the supported path is to run the Linux build inside Windows Subsystem for Linux (WSL 2). This repo packages that flow into one PowerShell script, plus clear docs for first-time users.
+---
 
-## Download
+## ⚡ Quick Start
 
-Best option: download `claude-science-windows.zip` from the latest GitHub Release, unzip it, then run `ClaudeScience-Windows.cmd` or `ClaudeScience-Windows.ps1`.
+Anthropic currently only ships a native Claude Science app for macOS and Linux. This tool gives you a seamless, 1-click way to install and run the official Linux version directly on your Windows machine using Windows Subsystem for Linux (WSL 2).
 
-If you do not want the full zip, download these two files from the repo or release:
+It handles everything automatically: installing WSL 2 (if needed), downloading Claude Science, configuring dependencies, and opening it in your browser.
 
-- `ClaudeScience-Windows.ps1` - the real installer and launcher.
-- `ClaudeScience-Windows.cmd` - optional double-click wrapper for people who do not want to open PowerShell first.
+### 1️⃣ Download this tool
 
-The `.cmd` file is only a convenience wrapper. The maintained logic is PowerShell because it gives better checks, errors, and Windows integration than a `.bat` file.
+**Option A (Easiest): Download the ZIP**
+1. Click the **[Code]** button at the top right of this page and select **Download ZIP**.
+2. Extract the ZIP folder anywhere on your computer (e.g., your Desktop or Downloads folder).
 
-## Quick Start
-
-Open PowerShell in the folder where you downloaded the file and run:
-
+**Option B: Clone with Git**
+If you have Git installed, simply open your terminal and run:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\ClaudeScience-Windows.ps1
+git clone https://github.com/YOUR-USERNAME/claude-science-windows.git
 ```
 
-Or double-click:
+### 2️⃣ Run it
 
-```text
-ClaudeScience-Windows.cmd
-```
+1. Open the folder you just downloaded/extracted.
+2. Double-click the **`ClaudeScience-Windows.cmd`** file.
+3. *That's it!* 
 
-The script will:
+A PowerShell window will pop up. It will automatically check your system, install any missing pieces (like Ubuntu for WSL), download the latest version of Claude Science from Anthropic, and open the app in your browser window.
 
-1. Check for WSL.
-2. Install or verify Ubuntu 24.04.
-3. Install Linux dependencies inside Ubuntu.
-4. Run the official Claude Science installer.
-5. Start Claude Science on `localhost:8765`.
-6. Open the sign-in URL in your Windows browser.
+---
 
-## Requirements
+## 🧠 Prerequisites 
 
-- Windows 10 or Windows 11 with WSL 2 support.
-- Ubuntu 24.04 in WSL. The script installs it if missing.
+Before you launch the app, ensure you meet Anthropic's requirements:
 - A Claude account on a plan that includes Claude Science beta access.
-- Team and Enterprise users may need an organization admin to enable Claude Science.
-- Administrator approval may be needed once for WSL installation.
+- (Optional but helpful) You can read Anthropic's official getting started guide here: [Claude Science Docs](https://claude.com/docs/claude-science/get-started).
 
-No Anthropic API key is required for Claude Science sign-in.
+*(Note: No Anthropic API key is required to sign in!)*
 
-## Common Commands
+---
 
+## 🛠️ Advanced Options
+
+If you prefer to use the command line directly, or want to manage the background process manually, you can run the core PowerShell script directly:
+
+Open PowerShell in this folder and run:
 ```powershell
 # Install and launch
 .\ClaudeScience-Windows.ps1
 
-# Launch after it is already installed
-.\ClaudeScience-Windows.ps1 -Action start
-
-# Print or open the current sign-in URL
-.\ClaudeScience-Windows.ps1 -Action url
-
-# Show whether Claude Science is running
-.\ClaudeScience-Windows.ps1 -Action status
-
-# Print the latest Claude Science log
-.\ClaudeScience-Windows.ps1 -Action logs
-
 # Stop Claude Science cleanly
 .\ClaudeScience-Windows.ps1 -Action stop
 
-# Check your setup
+# Check your setup for errors
 .\ClaudeScience-Windows.ps1 -Action doctor
 
-# Update Claude Science
+# Update Claude Science to the latest version
 .\ClaudeScience-Windows.ps1 -Action update
 ```
 
-Use another port if `8765` is already occupied:
+## ❓ Troubleshooting
 
-```powershell
-.\ClaudeScience-Windows.ps1 -Port 8799
-```
+- **Admin prompt:** If this is your very first time using WSL, Windows might prompt you for Administrator approval to install the underlying Linux environment. This is normal.
+- **Where is my data stored?** Claude Science stores its app data, projects, and conversation history inside your WSL home directory under `~/.claude-science`. 
 
-## What Gets Installed
-
-Inside WSL Ubuntu:
-
-- `ca-certificates`
-- `curl`
-- `bubblewrap`
-- `socat`
-- Claude Science through `https://claude.ai/install-claude-science.sh`
-
-Claude Science stores its app data in your WSL home directory under:
-
-```text
-~/.claude-science
-```
-
-Deleting that folder removes Claude Science projects, artifacts, and conversation history.
-
-## Why WSL Instead Of A Native Windows Installer?
-
-Anthropic does not currently ship a native Claude Science build for Windows. The official Windows path is WSL 2. A PowerShell launcher is the best Windows-native wrapper around that path because it can call WSL, check versions, open your browser, and print useful diagnostics.
-
-## Documentation
-
-- [Windows install guide](docs/windows-install.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Security and data notes](docs/security-and-data.md)
-- [Uninstall and reset](docs/uninstall.md)
-- [Publishing this repo to GitHub](docs/publishing-to-github.md)
-
-## Official References
-
-- Claude Science announcement: https://www.anthropic.com/news/claude-science-ai-workbench
-- Claude Science get started: https://claude.com/docs/claude-science/get-started
-- Run on Windows with WSL: https://claude.com/docs/claude-science/run-on-windows-wsl
-- Claude Science command line settings: https://claude.com/docs/claude-science/command-line-settings
-
-## Status
-
-This repo is an unofficial helper around Anthropic's documented installation path. It does not bundle Claude Science and does not bypass Claude account, plan, or organization access requirements.
-
-## Maintainers
-
-Push a tag such as `v0.1.0` to create a GitHub Release asset automatically:
-
-```powershell
-git tag v0.1.0
-git push origin main --tags
-```
+---
+<p align="center"><i>This repo is an unofficial helper around Anthropic's documented installation path. It does not bypass Claude account, plan, or organization access requirements.</i></p>
