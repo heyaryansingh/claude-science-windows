@@ -6,7 +6,9 @@ Claude Science is currently a macOS/Linux app. On Windows, the supported path is
 
 ## Download
 
-For most users, download these two files from the repo or GitHub release:
+Best option: download `claude-science-windows.zip` from the latest GitHub Release, unzip it, then run `ClaudeScience-Windows.cmd` or `ClaudeScience-Windows.ps1`.
+
+If you do not want the full zip, download these two files from the repo or release:
 
 - `ClaudeScience-Windows.ps1` - the real installer and launcher.
 - `ClaudeScience-Windows.cmd` - optional double-click wrapper for people who do not want to open PowerShell first.
@@ -120,3 +122,12 @@ Anthropic does not currently ship a native Claude Science build for Windows. The
 ## Status
 
 This repo is an unofficial helper around Anthropic's documented installation path. It does not bundle Claude Science and does not bypass Claude account, plan, or organization access requirements.
+
+## Maintainers
+
+Push a tag such as `v0.1.0` to create a GitHub Release asset automatically:
+
+```powershell
+git tag v0.1.0
+git push origin main --tags
+```

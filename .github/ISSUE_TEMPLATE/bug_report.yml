@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a problem with the Windows helper script or docs.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste Claude tokens, API keys, patient data, lab credentials, or private research data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the failure and what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you ran
+      render: powershell
+      placeholder: .\ClaudeScience-Windows.ps1 -Action doctor
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Paste only non-sensitive output.
+      render: text
+    validations:
+      required: false
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2
+    validations:
+      required: false
+  - type: input
+    id: wsl
+    attributes:
+      label: WSL distribution and version
+      placeholder: Ubuntu-24.04, WSL 2
+    validations:
+      required: false

@@ -18,7 +18,11 @@ $requiredFiles = @(
   'docs/security-and-data.md',
   'docs/uninstall.md',
   'docs/publishing-to-github.md',
-  '.github/workflows/validate.yml'
+  '.github/workflows/validate.yml',
+  '.github/workflows/release.yml',
+  '.github/ISSUE_TEMPLATE/bug_report.yml',
+  '.github/ISSUE_TEMPLATE/question.yml',
+  '.github/ISSUE_TEMPLATE/config.yml'
 )
 
 foreach ($relativePath in $requiredFiles) {

@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Validate repository
+        shell: pwsh
+        run: ./scripts/Test-Repo.ps1
+
+      - name: Build release zip
+        shell: pwsh
+        run: ./scripts/New-ReleaseZip.ps1
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-science-windows
+          path: dist/claude-science-windows.zip
+
+      - name: Publish GitHub release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh release view $env:TAG_NAME *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $env:TAG_NAME --title $env:TAG_NAME --notes "Windows helper for Claude Science through WSL 2."
+          }
+
+          gh release upload $env:TAG_NAME .\dist\claude-science-windows.zip --clobber

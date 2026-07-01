@@ -7,3 +7,4 @@
 - Added optional `.cmd` wrapper for double-click use.
 - Added status, logs, stop, and update actions.
 - Added docs, troubleshooting, security notes, and validation workflow.
+- Added release packaging workflow and issue templates.

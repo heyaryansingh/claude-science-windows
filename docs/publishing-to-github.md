@@ -42,6 +42,17 @@ Download:
 - ClaudeScience-Windows.ps1 if you only want the one-file installer.
 ```
 
+## Automated releases
+
+This repo includes `.github/workflows/release.yml`. After you push to GitHub, create and push a version tag:
+
+```powershell
+git tag v0.1.0
+git push origin main --tags
+```
+
+GitHub Actions will validate the repo, build `dist\claude-science-windows.zip`, and upload it to the GitHub Release for that tag.
+
 ## Suggested repo description
 
 ```text
