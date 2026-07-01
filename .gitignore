@@ -1,0 +1,6 @@
+.agent-orchestration/
+dist/
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
