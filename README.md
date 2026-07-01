@@ -1,4 +1,4 @@
-<h1 align="center">Claude Science for Windows 🚀</h1>
+<h1 align="center">Claude Science for Windows </h1>
 
 <p align="center">
   <b>The unofficial 1-click Windows installer for Claude Science.</b><br>
@@ -7,7 +7,7 @@
 
 ---
 
-## ⚡ Quick Start
+##  Quick Start
 
 Anthropic currently only ships a native Claude Science app for macOS and Linux. This tool gives you a seamless, 1-click way to install and run the official Linux version directly on your Windows machine using Windows Subsystem for Linux (WSL 2).
 
@@ -35,7 +35,7 @@ A PowerShell window will pop up. It will automatically check your system, instal
 
 ---
 
-## 🧠 Prerequisites 
+##  Prerequisites 
 
 Before you launch the app, ensure you meet Anthropic's requirements:
 - A Claude account on a plan that includes Claude Science beta access.
@@ -45,7 +45,7 @@ Before you launch the app, ensure you meet Anthropic's requirements:
 
 ---
 
-## 🛠️ Advanced Options
+##  Advanced Options
 
 If you prefer to use the command line directly, or want to manage the background process manually, you can run the core PowerShell script directly:
 
@@ -64,7 +64,7 @@ Open PowerShell in this folder and run:
 .\ClaudeScience-Windows.ps1 -Action update
 ```
 
-## ❓ Troubleshooting
+##  Troubleshooting
 
 - **Admin prompt:** If this is your very first time using WSL, Windows might prompt you for Administrator approval to install the underlying Linux environment. This is normal.
 - **Where is my data stored?** Claude Science stores its app data, projects, and conversation history inside your WSL home directory under `~/.claude-science`. 
